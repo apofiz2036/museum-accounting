@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'main/styles.css' %}">
+    <title>Список сотрудников</title>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'images/logo.jpg' %}" alt="Эмблема музея" class="logo">
+        <h1>Система учёта посетителей МБУ "Музей истории и этнографии"</h1>
+    </div>
+    
+    <h2 class="centered-title">Фильтры для подсчёта</h2>
+
+    <form method="POST" class="filter-form">
+        {% csrf_token %}
+        <label for="staff_members">Сотрудники:</label> 
+        <select name="staff_members" id="staff_members" multiple class="wide-select">
+            {% for member in staff_members %}
+                <option value="{{ member.id }}">{{ member.name }}</option>
+            {% endfor %}
+        </select>
+    
+        <label for="location">Место проведения:</label>
+        <select name="location" id="location" multiple class="wide-select">
+            {% for location in location %}
+                <option value="{{location.id}}">{{ location.location }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="category">Категория мероприятия:</label>
+        <select name="category" id="category" multiple class="wide-select">
+            {% for category in category %}
+                <option value="{{category.id}}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="events_list">Мероприятие:</label>
+        <select name="events_list" id="events_list" multiple class="wide-select">
+            {% for event in events_list %}
+                <option value="{{ event.id }}">{{ event.event_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="free_or_not">Форма оплаты</label>
+        <select name="free_or_not" id="free_or_not" multiple class="ide-select">
+            {% for choice in free_or_not %}
+                <option value="{{ choice.id }}">{{ choice.free_or_not }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date_from">Дата начала отбора</label>
+        <input type="date" name="date_from" id="date_from">
+
+        <label for="date_to">Дата окончания отбора</label>
+        <input type="date" name="date_to" id="date_to">
+
+    <button type="submit">Отобрать данные</button>
+    </form>
+
+
+    <h2 class="centered-title">Подсчёт значений</h2>
+
+    <div class="container">
+        <div class="results">
+        <h3>СУММА</h3>
+        <ul>
+            <li><span class="label">ВПН:</span><span class="value">{{ events.vpn_sum|default:"0" }}</span></li>
+            <li><span class="label">Взрослые:</span><span class="value">{{ events.adults_sum|default:"0" }}</span></li>
+            <li><span class="label">Студенты ВУЗ:</span><span class="value">{{ events.university_students_sum|default:"0" }}</span></li>
+            <li><span class="label">Студенты колледжа:</span><span class="value">{{ events.college_students_sum|default:"0" }}</span></li>
+            <li><span class="label">Школьники:</span><span class="value">{{ events.school_sum|default:"0" }}</span> </li>
+            <li><span class="label">Дошкольники:</span><span class="value">{{ events.children_sum|default:"0" }}</span></li>
+            <li><span class="label">Пенсионеры:</span><span class="value">{{ events.pensioners_sum|default:"0" }}</span></li>
+            <div style="height: 20px;"></div>
+
+            <li><span class="label">Социально опекаемые дети:</span><span class="value">{{ events.socially_supported_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Социально опекаемые взрослые:</span><span class="value">{{ events.socially_supported_adult_sum|default:"0" }}</span></li>
+            <li><span class="label">Пушкинская карта:</span><span class="value">{{ events.pushkn_cards_sum|default:"0" }}</span></li>
+            <li><span class="label">Дети КМНС:</span><span class="value">{{ events.indigenous_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Взрослые КМНС:</span><span class="value">{{ events.indigenous_adult_sum|default:"0" }}</span></li>
+            <li><span class="label">Дети РАС:</span><span class="value">{{ events.autism_spectrum_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Дети участников СВО:</span><span class="value">{{ events.svo_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Льготные посетители:</span><span class="value">{{ events.preferential_sum|default:"0"}}</span> </li>
+            <div style="height: 20px;"></div>
+
+            <li><span class="label">Всего посетителей:</span><span class="value">{{ events.all_sum|default:"0" }}</span></li>
+        </ul>    
+        </div>
+
+        <div class="results">
+        <h3>КОЛИЧЕСТВО МЕРОПРИЯТИЙ</h3>
+        <ul>
+            <li><span class="label">ВПН:</span><span class="value">{{ events.vpn_count|default:"0" }}</span></li>
+            <li><span class="label">Взрослые:</span><span class="value">{{ events.adults_count|default:"0" }}</span></li>
+            <li><span class="label">Студенты ВУЗ:</span><span class="value">{{ events.university_students_count|default:"0" }}</span></li>
+            <li><span class="label">Студенты колледжа:</span><span class="value">{{ events.college_students_count|default:"0" }}</span></li>
+            <li><span class="label">Школьники:</span><span class="value">{{ events.school_count|default:"0" }}</span> </li>
+            <li><span class="label">Дошкольники:</span><span class="value">{{ events.children_count|default:"0" }}</span></li>
+            <li><span class="label">Пенсионеры:</span><span class="value">{{ events.pensioners_count|default:"0" }}</span></li>
+            <div style="height: 20px;"></div>
+
+            <li><span class="label">Социально опекаемые дети:</span><span class="value">{{ events.socially_supported_children_count|default:"0" }}</span></li>
+            <li><span class="label">Социально опекаемые взрослые:</span><span class="value">{{ events.socially_supported_adult_count|default:"0" }}</span></li>
+            <li><span class="label">Пушкинская карта:</span><span class="value">{{ events.pushkn_cards_count|default:"0" }}</span></li>
+            <li><span class="label">Дети КМНС:</span><span class="value">{{ events.indigenous_children_count|default:"0" }}</span></li>
+            <li><span class="label">Взрослые КМНС:</span><span class="value">{{ events.indigenous_adult_count|default:"0" }}</span></li>
+            <li><span class="label">Дети РАС:</span><span class="value">{{ events.autism_spectrum_children_count|default:"0" }}</span></li>
+            <li><span class="label">Дети участников СВО:</span><span class="value">{{ events.svo_children_count|default:"0" }}</span></li>
+            <li><span class="label">Льготные посетители:</span><span class="value">{{ events.preferential_count|default:"0"}}</span> </li>
+            <div style="height: 20px;"></div>
+            
+            <li><span class="label">Всего мероприятий</span><span class="value">{{ events.all_count|default:"0" }}</span></li>
+        </ul>
+        </div>
+
+        <div class="results">
+        <h3>ИНДИВИДУАЛЬНЫЕ ПОСЕТИТЕЛИ</h3>
+        <ul>
+            <li><span class="label">ВПН:</span><span class="value">{{ free_visitors.vpn_sum|default:"0" }}</span></li>
+            <li><span class="label">Взрослые:</span><span class="value">{{ free_visitors.adults_sum|default:"0" }}</span></li>
+            <li><span class="label">Студенты ВУЗ:</span><span class="value">{{ free_visitors.university_students_sum|default:"0" }}</span></li>
+            <li><span class="label">Студенты колледжа:</span><span class="value">{{ free_visitors.college_students_sum|default:"0" }}</span></li>
+            <li><span class="label">Школьники:</span><span class="value">{{ free_visitors.school_sum|default:"0" }}</span> </li>
+            <li><span class="label">Дошкольники:</span><span class="value">{{ free_visitors.children_sum|default:"0" }}</span></li>
+            <li><span class="label">Пенсионеры:</span><span class="value">{{ free_visitors.pensioners_sum|default:"0" }}</span></li>
+            <div style="height: 20px;"></div>
+
+            <li><span class="label">Социально опекаемые дети:</span><span class="value">{{ free_visitors.socially_supported_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Социально опекаемые взрослые:</span><span class="value">{{ free_visitors.socially_supported_adult_sum|default:"0" }}</span></li>
+            <li><span class="label">Пушкинская карта:</span><span class="value">{{ free_visitors.pushkn_cards_sum|default:"0" }}</span></li>
+            <li><span class="label">Дети КМНС:</span><span class="value">{{ free_visitors.indigenous_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Взрослые КМНС:</span><span class="value">{{ free_visitors.indigenous_adult_sum|default:"0" }}</span></li>
+            <li><span class="label">Дети РАС:</span><span class="value">{{ free_visitors.autism_spectrum_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Дети участников СВО:</span><span class="value">{{ free_visitors.svo_children_sum|default:"0" }}</span></li>
+            <li><span class="label">Льготные посетители:</span><span class="value">{{ free_visitors.preferential_sum|default:"0"}}</span> </li>
+            <div style="height: 20px;"></div>
+
+            <li><span class="label">Всего посетителей:</span><span class="value">{{ free_visitors.all_sum|default:"0" }}</span></li>
+            <li><span class="label">Всего посещений:</span><span class="value">{{ free_visitors.all_count|default:"0" }}</span></li>
+        </ul>
+        </div>
+    </div>
+    
+
+</body>
+</html>
