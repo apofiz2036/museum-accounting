@@ -7,6 +7,7 @@ class TimeOff(models.Model):
     date_of_time_off = models.DateField(blank=True, null=True, verbose_name='Дата отгула')
     double_payment = models.BooleanField(default=False, verbose_name='Двойная оплата')
     is_closed = models.BooleanField(default=False, verbose_name='Закрытый отгул')
+    comment = models.CharField(max_length=200, blank=True, null=True, verbose_name='Коментарий')
 
     def __str__(self):
         return ""

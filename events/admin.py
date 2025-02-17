@@ -8,7 +8,7 @@ from django.utils import formats
 
 
 class TimeOffAdmin(admin.ModelAdmin):
-    list_display = ('employee', 'date_work', 'date_of_time_off', 'double_payment', 'is_closed')
+    list_display = ('employee', 'date_work', 'date_of_time_off', 'double_payment', 'is_closed', 'comment')
     list_filter = ('employee', 'double_payment', 'is_closed')
 
 class CategoriesAdmin(admin.ModelAdmin):
