@@ -3,10 +3,10 @@ from .models import Staff, Location, Category, Events, EventList, FreeVisitors, 
 from django.db.models import Sum, Count, Q, Case, When
 
 def main(request):
-    staff_members = Staff.objects.all()
-    location = Location.objects.all()
-    category = Category.objects.all()
-    events_list = EventList.objects.all()
+    staff_members = Staff.objects.all().order_by('name')
+    location = Location.objects.all().order_by('location')
+    category = Category.objects.all().order_by('name')
+    events_list = EventList.objects.all().order_by('event_name')
     free_or_not = FreeOrNot.objects.all()
 
     events_query = Events.objects.all()

@@ -17,50 +17,62 @@
 
     <form method="POST" class="filter-form">
         {% csrf_token %}
-        <label for="staff_members">Сотрудники:</label> 
-        <select name="staff_members" id="staff_members" multiple class="wide-select">
-            {% for member in staff_members %}
-                <option value="{{ member.id }}">{{ member.name }}</option>
-            {% endfor %}
-        </select>
-    
-        <label for="location">Место проведения:</label>
-        <select name="location" id="location" multiple class="wide-select">
-            {% for location in location %}
-                <option value="{{location.id}}">{{ location.location }}</option>
-            {% endfor %}
-        </select>
 
-        <label for="category">Категория мероприятия:</label>
-        <select name="category" id="category" multiple class="wide-select">
-            {% for category in category %}
-                <option value="{{category.id}}">{{ category.name }}</option>
-            {% endfor %}
-        </select>
+        <!-- Первая колонка -->
+        <div class="filter-column">
+            <label for="staff_members">Сотрудники:</label> 
+            <select name="staff_members" id="staff_members" multiple class="wide-select">
+                {% for member in staff_members %}
+                    <option value="{{ member.id }}">{{ member.name }}</option>
+                {% endfor %}
+            </select>
 
-        <label for="events_list">Мероприятие:</label>
-        <select name="events_list" id="events_list" multiple class="wide-select">
-            {% for event in events_list %}
-                <option value="{{ event.id }}">{{ event.event_name }}</option>
-            {% endfor %}
-        </select>
+            <label for="location">Место проведения:</label>
+            <select name="location" id="location" multiple class="wide-select">
+                {% for location in location %}
+                    <option value="{{location.id}}">{{ location.location }}</option>
+                {% endfor %}
+            </select>
 
-        <label for="free_or_not">Платно или нет</label>
-        <select name="free_or_not" id="free_or_not" multiple class="ide-select">
-            {% for choice in free_or_not %}
-                <option value="{{ choice.id }}">{{ choice.free_or_not }}</option>
-            {% endfor %}
-        </select>
+            <!-- Пустой div для выравнивания -->
+            <div style="height: 278px;"></div>
 
-        <label for="date_from">Дата начала отбора</label>
-        <input type="date" name="date_from" id="date_from">
+            <label for="date_from">Дата начала отбора</label>
+            <input type="date" name="date_from" id="date_from" class="wide-select">
+        </div>
 
-        <label for="date_to">Дата окончания отбора</label>
-        <input type="date" name="date_to" id="date_to">
+        <!-- Вторая колонка -->
+        <div class="filter-column">
+            <label for="category">Категория мероприятия:</label>
+            <select name="category" id="category" multiple class="wide-select">
+                {% for category in category %}
+                    <option value="{{category.id}}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
 
-    <button type="submit">Отобрать данные</button>
+            <label for="events_list">Мероприятие:</label>
+            <select name="events_list" id="events_list" multiple class="wide-select">
+                {% for event in events_list %}
+                    <option value="{{ event.id }}">{{ event.event_name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="free_or_not">Платно или нет</label>
+            <select name="free_or_not" id="free_or_not" multiple class="wide-select">
+                {% for choice in free_or_not %}
+                    <option value="{{ choice.id }}">{{ choice.free_or_not }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="date_to">Дата окончания отбора</label>
+            <input type="date" name="date_to" id="date_to" class="wide-select">
+        </div>
+
+        <!-- Кнопка -->
+        <div style="flex-basis: 100%; text-align: center;">
+            <button type="submit">Отобрать данные</button>
+        </div>
     </form>
-
 
     <h2 class="centered-title">Подсчёт значений</h2>
 
