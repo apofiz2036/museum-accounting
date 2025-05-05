@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, User
+from django.urls import path
+from django.shortcuts import render
 from time_off.models import TimeOff
 from bot_info.models import Categories, Message, Subscribers
 from .models import Staff, Location, Category, EventList, Events, FreeVisitors, FreeOrNot, EventsPlan
@@ -68,14 +70,37 @@ class EventsPlanAdmin(admin.ModelAdmin):
         if db_field.name == "employee":
             kwargs["queryset"] = Staff.objects.filter(actual=True)
         return super().formfield_for_manytomany(db_field, request, **kwargs)
-    
+
+
 class MyAdminSite(admin.AdminSite):
     site_title = 'Система учёта МБУ "Музей истории и этнографии"'
     site_header = 'Система учёта МБУ "Музей истории и этнографии"'
     index_title = 'Добро пожаловать в админку'
+    enable_nav_sidebar = True
+    site_url = '/admin/main/'
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('main/', self.admin_view(self.main_view), name = 'main_view'),
+        ]
+        return custom_urls + urls
     
+    def main_view(self, request):
+        context = {
+            'staff_members': Staff.objects.all(),
+            'location': Location.objects.all(),
+            'category': Category.objects.all(),
+            'events_list': EventList.objects.all(),
+            'free_or_not': FreeOrNot.objects.all(),
+            'events': {},
+            'free_visitors': {}
+        }
+        return render(request, 'admin/main.html', context)
+
 
 admin_site = MyAdminSite(name='myadmin')
+
 admin_site.register(TimeOff, TimeOffAdmin)
 admin_site.register(Categories, CategoriesAdmin)
 admin_site.register(Message, MessageAdmin)

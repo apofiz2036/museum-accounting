@@ -9,12 +9,47 @@ body {
 /* Шапка */
 .header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    padding: 15px 20px;
+    padding: 15px 25px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     margin-bottom: 30px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.admin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    padding: 8px 15px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.admin-link:hover {
+    background-color: #e9ecef;
+    transform: translateY(-1px);
+}
+
+.admin-link svg {
+    margin-right: 5px;
 }
 
 .logo {
